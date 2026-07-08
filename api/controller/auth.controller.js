@@ -41,7 +41,11 @@ export const signin= async(req,res)=>{
    };
    const token=await jwt.sign({userId:userExit._id},process.env.JWT_SECRET_KEY,{expiresIn:"5d"});
    res.cookie("token",token,{httpOnly:true,secure:process.env.NODE_ENV==="production"});
-   const { password, ...user } = userExit.toObject();
+   const { password: hashedPassword, ...user } = userExit.toObject();
+res.status(200).json({
+  message: "User login successful",
+  user,
+});
 res.status(200).json({
   message: "User login successful",
   user,
