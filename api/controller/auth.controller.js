@@ -40,8 +40,12 @@ export const signin= async(req,res)=>{
     return res.status(400).send({message:"Invalid Credintial"});
    };
    const token=await jwt.sign({userId:userExit._id},process.env.JWT_SECRET_KEY,{expiresIn:"5d"});
-   res.cookie("token",token,{httpOnly:true,secure:process.env.NODE_ENV==="production"})
-   res.status(200).send({message:"user login succesfull"});
+   res.cookie("token",token,{httpOnly:true,secure:process.env.NODE_ENV==="production"});
+   const { password, ...user } = userExit.toObject();
+res.status(200).json({
+  message: "User login successful",
+  user,
+});
  } catch (error) {
   console.log(error);
   res.status(400).send({message:"internal server error"})

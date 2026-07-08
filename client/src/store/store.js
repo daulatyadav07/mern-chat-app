@@ -50,18 +50,18 @@ export const useAuthCheck=create((set,get)=>(
       toast.success("user logout succesfully");
       get().disconnectSocket();
      } catch (error) {
-       toast.error(response.data.message)
+       toast.error(error.response?.data?.message)
      }
    },
   login:async(data)=>{
      set({isLoging:true})
     try {
       const response=await axiosInstance.post("/signin",data);
-      set({authUser:response.data});
+      set({authUser:response.data.user});
       toast.success("logged in successfully");
       get().connectSocket();
     } catch (error) {
-       toast.error(error.response.data.message)
+       toast.error(error.response?.data?.message)
     }
     finally{
       set({isLoging:false})
